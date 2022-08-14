@@ -1,41 +1,22 @@
 class Solution {
 public:
     vector<vector<int>> largestLocal(vector<vector<int>>& grid) {
-        int n = grid.size();
-        
-        // This will be our final matrix of size (n-2)*(n-2)
-        vector<vector<int>> ans(n-2,vector<int>(n-2));
-        
-        
-        // We call our kind 'maxIn3x3' function only from index [(0,0) to (n-2,n-2)) excluding (n-2) i.e upto (n-3).
-		// We will keep storing value returned by this function in 'ans' array at corresponding (i,j) co-ordinate while loop traversal.
-        for(int i=0;i<n-2;i++)
-        {
-            for(int j=0;j<n-2;j++)
-                ans[i][j] = maxIn3x3(grid, i, j);
+        int n=grid.size();
+        vector<vector<int>>res(n-2,vector<int>(n-2));
+        for(int i=0;i<n-2;i++){
+            for(int j=0;j<n-2;j++){
+                res[i][j]=helper(i,j,grid);
+            }
         }
-        
-        
-        // Happy return calculated ans matrix :)
-        return ans;
+        return res;
     }
-    
-    
-    // A function that takes a starting cordinate (i,j) and returns max value in 3x3 size matrix starting from this cordinate.
-    int maxIn3x3(vector<vector<int>> &arr, int i, int j)
-    {
-        // Variable to store maximum value in this 3x3 matrix.
-        int maxVal = INT_MIN;
-        
-        // Start from the cordinate (i,j) and loop for size of 3x3 matrix size.
-        for(int x = i ; x < i+3 ; x++)
-        {
-            for(int y = j; y < j+3 ; y++)
-                maxVal = max(arr[x][y], maxVal);
+    int helper(int i, int j, vector<vector<int>>&grid){
+        int ans=INT_MIN;
+        for(int x=i;x<i+3;x++){
+            for(int y=j;y<j+3;y++){
+                ans=max(ans,grid[x][y]);
+            }
         }
-        
-        
-        // Happy return the maximum value in this 3x3 size matrix :)
-        return maxVal;
+        return ans;
     }
 };
